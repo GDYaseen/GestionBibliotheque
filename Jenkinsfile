@@ -7,7 +7,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                    url: 'https://github.com/GDYaseen/GestionBibliotheque.git',
+                    credentialsId: 'github-token'
+            ]]
+        ])
             }
         }
         stage('Build') {
