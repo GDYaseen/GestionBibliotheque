@@ -1,4 +1,4 @@
-package com.library.test;
+package com.library;
 
 import com.library.dao.BookDAO;
 import com.library.model.Book;
@@ -20,26 +20,26 @@ class BookServiceTest {
 
     @Test
     void testAddBook() {
-        Book book = new Book(1, "Java Programming", "John Doe", true);
+        Book book = new Book("Java Programming", "John Doe");
         bookService.addBook(book);
-        assertEquals(1, bookDAO.getAllBooks().size());
-        assertEquals("Java Programming", bookDAO.getBookById(1).get().getTitle());
+        assertEquals("Java Programming", bookDAO.getBookById(1).getTitle());
     }
 
     @Test
     void testUpdateBook() {
-        Book book = new Book(1, "Java Programming", "John Doe", true);
+        Book book = new Book(1,"Java Programming", "John Doe", "Van damm",2009);
         bookService.addBook(book);
-        bookService.updateBook(1, "Advanced Java", "Jane Doe", false);
-        assertEquals("Advanced Java", bookDAO.getBookById(1).get().getTitle());
-        assertFalse(bookDAO.getBookById(1).get().isAvailable());
+        book.setAuthor("Jane Doe");
+        book.setTitle("Advanced Java");
+        bookService.updateBook(book);
+        assertEquals("Advanced Java", bookDAO.getBookById(1).getTitle());
     }
 
     @Test
     void testDeleteBook() {
-        Book book = new Book(1, "Java Programming", "John Doe", true);
+        Book book = new Book(9999,"Java Programming", "John Doe","Studios Inc.",2023);
         bookService.addBook(book);
-        bookService.deleteBook(1);
-        assertTrue(bookDAO.getBookById(1).isEmpty());
+        bookService.deleteBook(9999);
+        assertTrue(bookDAO.getBookById(9999)==null);
     }
 }
