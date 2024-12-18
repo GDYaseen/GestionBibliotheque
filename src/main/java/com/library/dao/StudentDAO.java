@@ -1,6 +1,8 @@
 package com.library.dao;
 
 import com.library.model.Student;
+import com.library.util.DbConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,16 +10,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StudentDAO {
-    private final Connection connection;
     private static final Logger LOGGER = Logger.getLogger(StudentDAO.class.getName());
-
-    public StudentDAO(Connection connection) {
-        this.connection = connection;
-    }
 
     public void addStudent(Student student) {
         String query = "INSERT INTO students (id, name) VALUES (?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (Connection connection = DbConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, student.getId());
             statement.setString(2, student.getName());
             statement.executeUpdate();
@@ -28,7 +26,8 @@ public class StudentDAO {
 
     public Student getStudentById(int id) {
         String query = "SELECT * FROM students WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (Connection connection = DbConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -46,7 +45,8 @@ public class StudentDAO {
     public List<Student> getAllStudents() {
         List<Student> students = new ArrayList<>();
         String query = "SELECT * FROM students";
-        try (PreparedStatement statement = connection.prepareStatement(query);
+        try (Connection connection = DbConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 students.add(new Student(resultSet.getInt("id"), resultSet.getString("name")));
@@ -59,7 +59,8 @@ public class StudentDAO {
 
     public void updateStudent(Student student) {
         String query = "UPDATE students SET name = ? WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (Connection connection = DbConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, student.getName());
             statement.setInt(2, student.getId());
             statement.executeUpdate();
@@ -70,7 +71,8 @@ public class StudentDAO {
 
     public void deleteStudent(int id) {
         String query = "DELETE FROM students WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (Connection connection = DbConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
