@@ -74,6 +74,13 @@
         <scope>provided</scope>
     </dependency>
 
+    <!-- using local driver file -->
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+        <version>9.0.0</version>
+    </dependency>
+
   </dependencies>
 
 </project>

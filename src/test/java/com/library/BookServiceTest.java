@@ -20,26 +20,28 @@ class BookServiceTest {
 
     @Test
     void testAddBook() {
-        Book book = new Book("Java Programming", "John Doe");
+        Book book = new Book("Effective Java", "Joshua Bloch", "123456", 2017);
         bookService.addBook(book);
-        assertEquals("Java Programming", bookDAO.getBookById(1).getTitle());
+        int id = book.getId();
+        assertEquals("Effective Java", bookDAO.getBookById(id).getTitle());
     }
 
     @Test
     void testUpdateBook() {
-        Book book = new Book(1,"Java Programming", "John Doe", "Van damm",2009);
+        Book book = new Book("Java Programming", "John Doe", "Van damm",2009);
         bookService.addBook(book);
         book.setAuthor("Jane Doe");
         book.setTitle("Advanced Java");
         bookService.updateBook(book);
-        assertEquals("Advanced Java", bookDAO.getBookById(1).getTitle());
+        int id = book.getId();
+        assertEquals("Advanced Java", bookDAO.getBookById(id).getTitle());
     }
 
     @Test
     void testDeleteBook() {
-        Book book = new Book(9999,"Java Programming", "John Doe","Studios Inc.",2023);
+        Book book = new Book("Java Programming", "John Doe","Studios Inc.",2023);
         bookService.addBook(book);
-        bookService.deleteBook(9999);
-        assertTrue(bookDAO.getBookById(9999)==null);
+        bookService.deleteBook(book.getId());
+        assertTrue(bookDAO.getBookById(book.getId())==null);
     }
 }

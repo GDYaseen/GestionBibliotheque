@@ -25,7 +25,7 @@ public class BookService {
     public void displayBooks() {
         List<Book> books = bookDAO.getAllBooks();
         for (Book book : books) {
-            System.out.println(book);
+            System.out.println("ID: "+book.getId()+" | Title: "+book.getTitle()+" | Author: "+book.getAuthor()+" | Publisher: "+book.getPublisher()+" | Year: "+book.getYear()+" | Available: "+book.isAvailable());
         }
     }
 

@@ -5,10 +5,10 @@ import com.library.service.BookService;
 import com.library.service.StudentService;
 import com.library.model.Book;
 import com.library.model.Student;
-import com.library.model.Borrow;
+// import com.library.model.Borrow;
 import com.library.dao.BookDAO; 
 import com.library.dao.BorrowDAO;  // Importer BorrowDAO
-import java.util.Date;
+// import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
@@ -22,13 +22,13 @@ public class Main {
         BorrowDAO borrowDAO = new BorrowDAO();  // Création de BorrowDAO
         BookDAO bookDAO = new BookDAO();
         BorrowService borrowService = new BorrowService(borrowDAO,bookDAO);  // Passer BorrowDAO au constructeur de BorrowService
-        Book book = new Book(5555,"Effective Java", "Joshua Bloch", "123456", 2017);
-        Borrow borrow = new Borrow(1, student.getId(), book.getId(), new Date(), new Date());
+        Book book;
+        // Borrow borrow = new Borrow(1, student.getId(), book.getId(), new Date(), new Date());
         
         boolean running = true;
 
         while (running) {
-            System.out.println("\n===== Menu =====");
+            System.out.println("\n\n===== Menu =====\n");
             System.out.println("1. Ajouter un livre");
             System.out.println("2. Afficher les livres");
             System.out.println("3. Ajouter un étudiant");
@@ -74,9 +74,7 @@ public class Main {
                     Student studentForBorrow = studentService.findStudentById(studentId);
                     Book bookForBorrow = bookService.findBookById(bookId);
                     if (studentForBorrow != null && bookForBorrow != null) {
-                        // Créer un objet Borrow avec les informations nécessaires
-                        borrow = new Borrow(studentForBorrow.getId(), bookForBorrow.getId(), new Date(), null);
-                        borrowService.borrowBook(borrow.getStudent(),borrow.getBook());  // Appel de la méthode avec l'objet Borrow
+                        borrowService.borrowBook(studentId,bookId);  // Appel de la méthode avec l'objet Borrow
                     } else {
                         System.out.println("Étudiant ou livre introuvable.");
                     }

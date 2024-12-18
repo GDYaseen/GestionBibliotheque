@@ -2,6 +2,7 @@
 package com.library.service;
 
 import java.util.Date;
+import java.util.List;
 
 import com.library.dao.BookDAO;
 // import com.library.dao.StudentDAO;
@@ -34,6 +35,7 @@ public class BorrowService {
         // Sauvegarde de l'emprunt dans la base de données
         Borrow borrow = new Borrow(studentId, bookId, new Date(), null);
         bookDAO.markAvailable(bookId,false);
+        System.out.println("From borrowBook: "+studentId+"    "+bookId);
         return borrowDAO.save(borrow);
     }
 
@@ -53,5 +55,9 @@ public class BorrowService {
     public void displayBorrows() {
         System.out.println("Liste des emprunts...");
         // Afficher les emprunts enregistrés (adapté selon votre DAO)
+        List<Borrow> borrows = borrowDAO.getAllBorrows();
+        for (Borrow borrow : borrows) {
+            System.out.println("ID: " + borrow.getId() + " | Student: " + borrow.getStudent()+ " | Book: " + borrow.getBook()+ " | Borrow Date: " + borrow.getBorrowDate()+ " | Return Date: " + borrow.getReturnDate());
+        }
     }
 }

@@ -1,0 +1,33 @@
+-------------------------------------------------------------------------------
+Test set: com.library.BorrowServiceTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 1, Errors: 2, Skipped: 0, Time elapsed: 0.249 s <<< FAILURE! -- in com.library.BorrowServiceTest
+com.library.BorrowServiceTest.testBorrowBookStudentNotFound -- Time elapsed: 0.132 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <Ã‰tudiant ou livre non trouvÃ©.> but was: <Le livre n'est pas disponible.>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1141)
+	at com.library.BorrowServiceTest.testBorrowBookStudentNotFound(BorrowServiceTest.java:56)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.library.BorrowServiceTest.testReturnBook -- Time elapsed: 0.036 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.library.dao.BorrowDAO.stopBorrow(int, int)" because "this.borrowDAO" is null
+	at com.library.service.BorrowService.returnBook(BorrowService.java:50)
+	at com.library.BorrowServiceTest.testReturnBook(BorrowServiceTest.java:44)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.library.BorrowServiceTest.testBorrowBook -- Time elapsed: 0.038 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.library.dao.BorrowDAO.save(com.library.model.Borrow)" because "this.borrowDAO" is null
+	at com.library.service.BorrowService.borrowBook(BorrowService.java:38)
+	at com.library.BorrowServiceTest.testBorrowBook(BorrowServiceTest.java:37)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+

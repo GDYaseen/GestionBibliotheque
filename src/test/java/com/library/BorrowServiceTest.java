@@ -16,39 +16,50 @@ class BorrowServiceTest {
     private BookDAO bookDAO;
     private StudentDAO studentDAO;
     private BorrowDAO borrowDAO;
-
+    private Student alice;
+    private Book book1;
+    private Student bob;
+    private Book book2;
+    
     @BeforeEach
     void setUp() {
         bookDAO = new BookDAO();
         studentDAO = new StudentDAO();
+        borrowDAO = new BorrowDAO();
         borrowService = new BorrowService(borrowDAO,bookDAO);
 
         // Ajouter un étudiant
-        studentDAO.addStudent(new Student(1, "Alice"));
-        studentDAO.addStudent(new Student(2, "Bob"));
+        alice = new Student("Alice");
+        bob = new Student( "Bob");
+        
+        studentDAO.addStudent(alice);
+        studentDAO.addStudent(bob);
 
         // Ajouter des livres
-        bookDAO.add(new Book(1, "Java Programming", "John Doe","Van damm",2009));
-        bookDAO.add(new Book(2, "Advanced Java", "Jane Doe","Studio inc.",2023));
+        book1 = new Book("Java Programming", "John Doe","Van damm",2009);
+        bookDAO.add(book1);
+        book2 = new Book("Advanced Java", "Jane Doe","Studio inc.",2023);
+        bookDAO.add(book2);
     }
 
     @Test
     void testBorrowBook() {
-        assertEquals("Livre emprunté avec succès!", borrowService.borrowBook(1, 1));
-        assertFalse(bookDAO.getBookById(1).isAvailable());
+        assertEquals("Livre emprunté avec succès!", borrowService.borrowBook(alice.getId(), book1.getId()));
+        assertFalse(bookDAO.getBookById(book1.getId()).isAvailable());
     }
 
     @Test
     void testReturnBook() {
-        borrowService.borrowBook(1, 1);
-        assertEquals("Livre retourné avec succès!", borrowService.returnBook(1, 1));
-        assertTrue(bookDAO.getBookById(1).isAvailable());
+        borrowService.borrowBook(alice.getId(), book1.getId());
+        assertEquals("Livre retourné avec succès!", borrowService.returnBook(alice.getId(), book1.getId()));
+        assertTrue(bookDAO.getBookById(book1.getId()).isAvailable());
     }
 
     @Test
     void testBorrowBookNotAvailable() {
-        borrowService.borrowBook(1, 1);
-        assertEquals("Le livre n'est pas disponible.", borrowService.borrowBook(2, 1));
+        borrowService.borrowBook(bob.getId(), book2.getId());
+        assertEquals("Le livre n'est pas disponible.", borrowService.borrowBook(alice.getId(), book2.getId()));
+        borrowService.returnBook(bob.getId(), book2.getId());
     }
 
     @Test

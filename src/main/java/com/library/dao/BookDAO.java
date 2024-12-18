@@ -13,21 +13,28 @@ public class BookDAO {
     public void add(Book book) {
         String sql = "INSERT INTO books (title, author, isbn, published_year) VALUES (?, ?, ?, ?)";
         try (Connection connection = DbConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-             
+             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+    
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthor());
             statement.setString(3, book.getPublisher());
             statement.setInt(4, book.getYear());
-            
+    
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
-                System.out.println("Livre inséré avec succès !");
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int generatedId = generatedKeys.getInt(1);
+                        System.out.println("Livre inséré avec succès ! ID: " + generatedId);
+                        book.setId(generatedId); // Optionally set the ID back to the book object
+                    }
+                }
             }
         } catch (SQLException e) {
             System.err.println("Erreur lors de l'ajout du livre : " + e.getMessage());
         }
     }
+    
 
     // Récupérer un livre par son ISBN
     public Book getBookByIsbn(String isbn) {
@@ -74,6 +81,7 @@ public class BookDAO {
                 books.add(book);
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             System.err.println("Erreur lors de la récupération des livres : " + e.getMessage());
         }
         

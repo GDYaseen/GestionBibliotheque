@@ -12,8 +12,7 @@ public class Book {
     }
 
     // Constructeur complet
-    public Book(int id,String title, String author, String publisher, int year) {
-        this.id=id;
+    public Book(String title, String author, String publisher, int year) {
         this.title = title;
         this.author = author;
         this.publisher = publisher;

@@ -13,16 +13,26 @@ public class StudentDAO {
     private static final Logger LOGGER = Logger.getLogger(StudentDAO.class.getName());
 
     public void addStudent(Student student) {
-        String query = "INSERT INTO students (id, name) VALUES (?, ?)";
+        String query = "INSERT INTO students (name) VALUES (?)"; // Remove 'id' as it should be auto-generated
         try (Connection connection = DbConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, student.getId());
-            statement.setString(2, student.getName());
-            statement.executeUpdate();
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, student.getName());
+            int rowsInserted = statement.executeUpdate();
+    
+            if (rowsInserted > 0) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int generatedId = generatedKeys.getInt(1);
+                        System.out.println("Étudiant ajouté avec succès ! ID: " + generatedId);
+                        student.setId(generatedId); // Optionally set the ID back to the student object
+                    }
+                }
+            }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Erreur lors de l'ajout de l'étudiant", e);
         }
     }
+    
 
     public Student getStudentById(int id) {
         String query = "SELECT * FROM students WHERE id = ?";
