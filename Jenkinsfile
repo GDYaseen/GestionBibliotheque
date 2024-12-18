@@ -2,11 +2,12 @@ pipeline {
     agent any
     environment {
         MAVEN_HOME = tool 'Maven'
+        SONAR_TOKEN = credentials('gestion-biblio-token')
     }
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/GDYaseen/GestionBibliotheque.git'
+                checkout scm
             }
         }
         stage('Build') {
@@ -22,7 +23,7 @@ pipeline {
         stage('Quality Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    sh '${MAVEN_HOME}/bin/mvn sonar:sonar'
+                    sh "${MAVEN_HOME}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=gestion-bibliotheque -Dsonar.projectName='gestion-bibliotheque' -Dsonar.host.url=http://localhost:9000 -Dsonar.token=${SONAR_TOKEN}"
                 }
             }
         }
@@ -34,14 +35,16 @@ pipeline {
     }
     post {
         success {
-            emailext to: 'lahrigayassine@gmail.com',
-                subject: 'Build Success',
-                body: 'Le build a été complété avec succès.'
+            echo "Success"
+            // emailext to: 'lahrigayassine@gmail.com',
+            //     subject: 'Build Success',
+            //     body: 'Le build a été complété avec succès.'
         }
         failure {
-            emailext to: 'lahrigayassine@gmail.com',
-                subject: 'Build Failed',
-                body: 'Le build a échoué.'
+            echo "Fail"
+            // emailext to: 'lahrigayassine@gmail.com',
+            //     subject: 'Build Failed',
+            //     body: 'Le build a échoué.'
         }
     }
 }
