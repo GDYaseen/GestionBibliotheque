@@ -4,14 +4,20 @@ import java.util.Date;
 
 public class Borrow {
     private int id;
-    private Student student;
-    private Book book;
+    private int student;
+    private int book;
     private Date borrowDate;
     private Date returnDate;
 
     // Constructeur complet
-    public Borrow(int id, Student student, Book book, Date borrowDate, Date returnDate) {
+    public Borrow(int id, int student, int book, Date borrowDate, Date returnDate) {
         this.id = id;
+        this.student = student;
+        this.book = book;
+        this.borrowDate = borrowDate;
+        this.returnDate = returnDate;
+    }
+    public Borrow(int student, int book, Date borrowDate, Date returnDate) {
         this.student = student;
         this.book = book;
         this.borrowDate = borrowDate;
@@ -27,19 +33,19 @@ public class Borrow {
         this.id = id;
     }
 
-    public Student getStudent() {
+    public int getStudent() {
         return student;
     }
 
-    public void setStudent(Student student) {
+    public void setStudent(int student) {
         this.student = student;
     }
 
-    public Book getBook() {
+    public int getBook() {
         return book;
     }
 
-    public void setBook(Book book) {
+    public void setBook(int book) {
         this.book = book;
     }
 
