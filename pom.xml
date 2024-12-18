@@ -60,11 +60,20 @@
   <dependencies>
     <!-- JUnit 5 Jupiter API -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
-      <scope>test</scope>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.10.0</version>
+        <scope>test</scope>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.sonarsource.api.plugin/sonar-plugin-api -->
+    <dependency>
+        <groupId>org.sonarsource.api.plugin</groupId>
+        <artifactId>sonar-plugin-api</artifactId>
+        <version>10.14.0.2599</version>
+        <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
 </project>
