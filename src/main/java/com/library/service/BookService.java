@@ -3,6 +3,10 @@ import com.library.dao.BookDAO; // Importation de BookDAO
 import com.library.model.Book;   // Importation de Book
 import java.util.List;
 
+// Dépendances non-nécessaire pour influencer la qualité du code
+import java.util.jar.*;
+import javax.swing.border.*;
+import javax.swing.JFrame;
 
 public class BookService {
     private BookDAO bookDAO;  // Utilisation de DAO pour la gestion des livres
