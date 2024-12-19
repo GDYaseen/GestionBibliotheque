@@ -7,30 +7,23 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[
-                    url: 'https://github.com/GDYaseen/GestionBibliotheque.git',
-                    credentialsId: 'github-token'
-            ]]
-        ])
+                git branch:'main' , url:'https://github.com/GDYaseen/GestionBibliotheque.git'
             }
         }
         stage('Build') {
             steps {
-                sh '${MAVEN_HOME}/bin/mvn clean compile'
+                sh "mvn clean compile"
             }
         }
         stage('Test') {
             steps {
-                sh '${MAVEN_HOME}/bin/mvn test'
+                sh "mvn test"
             }
         }
         stage('Quality Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh "${MAVEN_HOME}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=gestion-bibliotheque -Dsonar.projectName='gestion-bibliotheque' -Dsonar.host.url=http://localhost:9000 -Dsonar.token=${SONAR_TOKEN}"
+                withSonarQubeEnv('Sonarqube') {
+                    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=gestion-bibliotheque -Dsonar.projectName='gestion-bibliotheque' -Dsonar.host.url=http://localhost:9000 -Dsonar.token=${SONAR_TOKEN}"
                 }
             }
         }
@@ -43,15 +36,15 @@ pipeline {
     post {
         success {
             echo "Success"
-            // emailext to: 'lahrigayassine@gmail.com',
-            //     subject: 'Build Success',
-            //     body: 'Le build a été complété avec succès.'
+            emailext(to: 'lahrigayassine@gmail.com',
+                subject: 'Build Success',
+                body: 'Le build a été complété avec succès.')
         }
         failure {
             echo "Fail"
-            // emailext to: 'lahrigayassine@gmail.com',
-            //     subject: 'Build Failed',
-            //     body: 'Le build a échoué.'
+            emailext(to: 'lahrigayassine@gmail.com',
+                subject: 'Build Failed',
+                body: 'Le build a échoué.')
         }
     }
 }
