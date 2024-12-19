@@ -23,7 +23,7 @@ class BookServiceTest {
         Book book = new Book("Effective Java", "Joshua Bloch", "123456", 2017);
         bookService.addBook(book);
         int id = book.getId();
-        assertEquals("Effective Java", bookDAO.getBookById(id).getTitle());
+        assertEquals("Wrong Title", bookDAO.getBookById(id).getTitle());
     }
 
     @Test
